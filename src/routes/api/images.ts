@@ -17,6 +17,7 @@ imagesRoutes.get('/', async (req: Request, res: Response): Promise<unknown> => {
   const imageName = req.query.imageName as string;
   const height = req.query.height as string;
   const width = req.query.width as string;
+  const positiveIntegers = /^[1-9]\d*$/;
   // full image
   const fullImagesPath =
     path.resolve('./') + `/images/fullImages/${imageName}.jpg`;
@@ -51,6 +52,13 @@ imagesRoutes.get('/', async (req: Request, res: Response): Promise<unknown> => {
       );
   }
   if (height && width) {
+    if (!width.match(positiveIntegers) || !height.match(positiveIntegers)) {
+      return res
+        .status(400)
+        .send(
+          'Bad request, neither query parameter width nor height can be equal zero or equal negative value only positive integer values.'
+        );
+    }
     await resizeImages(
       fullImagesPath,
       parseInt(width),
