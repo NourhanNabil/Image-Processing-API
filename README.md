@@ -30,7 +30,6 @@ npm i --save-dev @typescript-eslint/parser
 
 ## TYPESCRIPT SETUP
 ```bash
- npm i typescript # save to dependencies
  npm i typescript --save-dev # save to devDependencies
  npm i ts-node --save-dev # save to devDependencies
  # in Package.json 
@@ -43,8 +42,8 @@ npm i --save-dev @typescript-eslint/parser
 ## JASMINE SETUP
 ```bash
 # For unit testing 
- npm i jasmine  # save to dependencies
- npm i jasmine-spec-reporter # save to dependencies
+ npm i --save-dev jasmine  # save to devDependencies
+ npm i --save-dev jasmine-spec-reporter # save to devDependencies
 npm i --save-dev @types/jasmine # save to devDependencies
  # in Package.json 
 "scripts": {
@@ -55,7 +54,7 @@ npm i --save-dev @types/jasmine # save to devDependencies
 ```
 ## ENDPOINT TESTING SETUP
 ```bash
-npm i supertest  # save to dependencies
+npm i --save-dev supertest  # save to devDependencies
 npm i --save-dev @types/supertest.  # save to devDependencies
 # import SuperTest in the spec file.
 ```

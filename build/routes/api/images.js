@@ -14,10 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const path_1 = __importDefault(require("path"));
-const sharp_1 = __importDefault(require("sharp"));
-// import { promises as fs } from 'fs';
+const resize_1 = __importDefault(require("./resize"));
 const imagesRoutes = (0, express_1.Router)();
-// images names avaiable to use in the query params(name)
+// images names avaiable to use in the query params(imageName)
 const images = [
     'encenadaport',
     'fjord',
@@ -31,7 +30,6 @@ imagesRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const width = req.query.width;
     // full image
     const fullImagesPath = path_1.default.resolve('./') + `/images/fullImages/${imageName}.jpg`;
-    // const fullImage = await fs.readFile(fullImagesPath);
     //  resize images
     const resizeImagesPath = path_1.default.resolve('./') +
         `/images/resizeImages/${imageName}_${width}_${height}.jpg`;
@@ -60,9 +58,7 @@ imagesRoutes.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* 
             .send('Bad request, neither query parameter width nor height can be equal null.');
     }
     if (height && width) {
-        yield (0, sharp_1.default)(fullImagesPath)
-            .resize(parseInt(width), parseInt(height))
-            .toFile(resizeImagesPath);
+        yield (0, resize_1.default)(fullImagesPath, parseInt(width), parseInt(height), resizeImagesPath);
         return res.sendFile(resizeImagesPath);
     }
     res.sendFile(fullImagesPath);

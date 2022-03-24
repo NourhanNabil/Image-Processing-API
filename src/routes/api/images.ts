@@ -1,11 +1,10 @@
 import { Router, Request, Response } from 'express';
 import path from 'path';
-import sharp from 'sharp';
-// import { promises as fs } from 'fs';
+import resizeImages from './resize';
 
 const imagesRoutes = Router();
 
-// images names avaiable to use in the query params(name)
+// images names avaiable to use in the query params(imageName)
 const images: string[] = [
   'encenadaport',
   'fjord',
@@ -14,20 +13,19 @@ const images: string[] = [
   'santamonica',
 ];
 
-imagesRoutes.get('/', async (req: Request, res: Response) => {
+imagesRoutes.get('/', async (req: Request, res: Response): Promise<unknown> => {
   const imageName = req.query.imageName as string;
   const height = req.query.height as string;
   const width = req.query.width as string;
   // full image
   const fullImagesPath =
     path.resolve('./') + `/images/fullImages/${imageName}.jpg`;
-  // const fullImage = await fs.readFile(fullImagesPath);
   //  resize images
   const resizeImagesPath =
     path.resolve('./') +
     `/images/resizeImages/${imageName}_${width}_${height}.jpg`;
   const image = images.includes(imageName);
-  if (imageName === undefined || imageName === '') {
+  if (imageName === undefined) {
     return res
       .status(400)
       .send('Bad request, query parameter imageName is missing.');
@@ -53,9 +51,12 @@ imagesRoutes.get('/', async (req: Request, res: Response) => {
       );
   }
   if (height && width) {
-    await sharp(fullImagesPath)
-      .resize(parseInt(width), parseInt(height))
-      .toFile(resizeImagesPath);
+    await resizeImages(
+      fullImagesPath,
+      parseInt(width),
+      parseInt(height),
+      resizeImagesPath
+    );
     return res.sendFile(resizeImagesPath);
   }
   res.sendFile(fullImagesPath);

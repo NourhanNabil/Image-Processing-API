@@ -12,17 +12,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const supertest_1 = __importDefault(require("supertest"));
-const index_1 = __importDefault(require("../../index"));
-const request = (0, supertest_1.default)(index_1.default);
-describe('Testing endpointas', () => {
-    it('getting endpoint without the imageName parameter', () => __awaiter(void 0, void 0, void 0, function* () {
-        request.get('/images').expect(400);
-    }));
-    it('getting endpoint with a non-existent image', () => __awaiter(void 0, void 0, void 0, function* () {
-        request.get('/images?imageName=abc').expect(404);
-    }));
-    it('getting endpoint with a valid image', () => __awaiter(void 0, void 0, void 0, function* () {
-        yield request.get('/images?imageName=fjord').expect(200);
-    }));
+const sharp_1 = __importDefault(require("sharp"));
+const fs_1 = __importDefault(require("fs"));
+const resizeImages = (image, width, height, resizeImage) => __awaiter(void 0, void 0, void 0, function* () {
+    if (!fs_1.default.existsSync(resizeImage)) {
+        yield (0, sharp_1.default)(image)
+            .resize({
+            width: width,
+            height: height,
+        })
+            .toFile(resizeImage);
+        return resizeImage;
+    }
 });
+exports.default = resizeImages;
