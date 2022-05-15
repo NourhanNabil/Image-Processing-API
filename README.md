@@ -4,6 +4,15 @@ Image processing API, uses query parameters to serve resize images.
 In order to get an image you need to provide the imageName, and also the wanted width **and** height via url query parameters. 
 If one param is missing, you get an information about the missing parameter.
 
+### An image processing API that resizes and saves images to user specifications when visiting a URL.
+  * Configure Prettier and ESLint with Typescript. 
+  * Resize an image in Node.js using Sharp.
+  * Tests for endpoints and image processing.
+  * Handle errors when an image has failed to process or does not exist. 
+
+Techs: `Typescript` `Nodejs` `Jasmine`
+
+
 ## NODEJS SETUP
 ```bash
  npm init
